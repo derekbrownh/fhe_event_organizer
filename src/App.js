@@ -6,7 +6,8 @@ import TextField from "@material-ui/core/TextField";
 
 export function App(props) {
   const [user, setUser] = useState(null);
-  const [test, setTest] = useState(null)
+  const [test, setTest] = useState("")
+  
 
 
   useEffect(() => {
@@ -21,32 +22,46 @@ export function App(props) {
     return unsubscribe;
   }, [props.history]);
 
-  useEffect(() => {
-    if (user) {
-      db.collection("users")
-        .doc(user.uid)
-        .collection("test")
-        .onSnapshot((snapshot) => {
-          const test = snapshotToArray(snapshot);
-          setTest(test);
-        });
-    }
-  }, [user]);
+
+
+  const handleSaveTest = () => {
+    console.log(user.uid)
+    db.collection("users")
+      .doc(user.uid)
+      .collection("test")
+      .add({
+        test: test
+      })
+      
+      .then(setTest(""));
+  };
+
+  // useEffect(() => {
+  //   if (user) {
+  //     db.collection("users")
+  //       .doc(user.uid)
+  //       .collection("test")
+  //       .onSnapshot((snapshot) => {
+  //         //const updated_value = snapshotToArray(snapshot);
+  //         //setTest(updated_value);
+  //       });
+  //   }
+  // }, [user]);
 
 
 
   return (<div>
     <AppBarFun user={user}></AppBarFun>
-    <h1 style={{textAlign: 'center'}}>Hello World!</h1>;
+    <h1 style={{textAlign: 'center'}}>Hello World!</h1>
     <TextField
-            placeholder="Email"
+            placeholder="Test Value"
             fullWidth="true"
             value={test}
-            onChange={e => {
-              setTest(e.target.value);
+            onChange={input => {
+              setTest(input.target.value);
             }}
           />
-    <Button color="inherit">
+    <Button color="inherit" onClick ={handleSaveTest}>
         Testing
       </Button>
     </div>)
