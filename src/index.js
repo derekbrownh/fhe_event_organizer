@@ -9,9 +9,9 @@ import {BrowserRouter, Route} from "react-router-dom"
 ReactDOM.render(
 <BrowserRouter>
     <div>
-        <Route path ="/" component = {SignIn}/>
+        <Route exact path ="/" component = {SignIn}/>
         <Route path ="/signup" component = {SignUp}/>
-        <Route exact path ="/app" component = {App}/>
+        <Route path ="/app" component = {App}/>
     </div>
 </BrowserRouter>
 , document.getElementById("root"));
